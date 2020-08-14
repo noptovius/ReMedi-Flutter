@@ -30,21 +30,23 @@ class _SosScreenState extends State<SosScreen> {
                         ),
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Expanded(
-                            flex: 1,
-                            child: ListView.builder(
-                                controller: scrollController,
-                                // ignore: missing_return
-                                itemBuilder: (BuildContext context, int index) {
-                                  return;
-                                }
-                            ),
+                            flex: 2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text("PANIC BUTTON"),
+                                Icon(Icons.info)
+                              ],
+                            )
                           ),
                           Expanded(
+                            flex: 2,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(90.0),
@@ -56,6 +58,10 @@ class _SosScreenState extends State<SosScreen> {
                                   )
                                 ],
                               )
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Text("TAP CHOOSE"),
                           ),
                         ],
                       )

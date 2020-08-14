@@ -20,7 +20,7 @@ class FloatingNavBar extends StatefulWidget {
   FloatingNavBar({
     Key key,
     @required this.items,
-    @required this.currentIndex,
+    this.currentIndex,
     @required this.onTap,
     ItemBuilder itemBuilder,
     this.backgroundColor = Colors.blue,
@@ -33,7 +33,6 @@ class FloatingNavBar extends StatefulWidget {
     this.unselectedItemColor = Colors.blueGrey,
   })  : assert(items.length > 1),
         assert(items.length <= 5),
-        assert(currentIndex <= items.length),
         itemBuilder = itemBuilder ??
             _defaultItemBuilder(
               unselectedItemColor: unselectedItemColor,

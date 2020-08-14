@@ -45,7 +45,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           onTap: (int val) {
                             //returns tab id which is user tapped
                           },
-                          currentIndex: 0,
                           items: [
                             FloatingNavBarItem(icon: Icons.account_circle, title: 'Profile'),
                             FloatingNavBarItem(icon: Icons.local_hospital, title: 'Catalogue'),
@@ -61,7 +60,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: FloatingActionButton(
                             onPressed: () {},
                             child: Icon(
-                              Icons.add,
+                              Icons.move_to_inbox,
                               color: Colors.white,
                             ),
                             // elevation: 5.0,
