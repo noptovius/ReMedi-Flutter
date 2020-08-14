@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/utils/destination.dart';
-import 'package:garudahacks/src/views/home/dashboard/dashboard_screen.dart';
-import 'package:garudahacks/src/views/home/profile/profile_screen.dart';
+import 'package:garudahacks/src/views/screens/home/dashboard/dashboard_screen.dart';
+import 'package:garudahacks/src/views/screens/home/history/history_screen.dart';
 
 class DestinationView extends StatefulWidget {
   const DestinationView({Key key, this.destination, this.onNavigation, this.currentIndex})
@@ -30,9 +30,9 @@ class _DestinationViewState extends State<DestinationView> {
           settings: settings,
           builder: (BuildContext context) {
             if (currentIndex < 1) {
-              return DashboardScreen(title: "TEst");
+              return DashboardScreen();
             } else {
-              return ProfileScreen(title: "Profile");
+              return HistoryScreen();
             }
           },
         );
