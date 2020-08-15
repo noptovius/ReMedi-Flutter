@@ -138,9 +138,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   );
                   break;
                 case 1:
-                  Navigator.push(
+                  Navigator.pushNamed(
                       context,
-                      MaterialPageRoute(builder: (context) => CatalogueScreen())
+                      '/catalogue'
                   );
                   break;
                 case 2:

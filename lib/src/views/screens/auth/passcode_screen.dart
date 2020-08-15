@@ -356,8 +356,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
 
         // Verify your password by here. API call
       if (password == "112233") {
-        Navigator.of(context)
-            .pushReplacement(FadeTransitionRoute(page: HomeScreen()));
+        Navigator.pushNamed(context, '/home');
       }
     });
   }

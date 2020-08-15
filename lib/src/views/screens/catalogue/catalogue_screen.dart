@@ -1,8 +1,15 @@
+import 'dart:developer';
+
+import 'package:chopper/chopper.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/services/api_service.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/doctor/doctor_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
+import 'package:provider/provider.dart';
 
 class CatalogueScreen extends StatefulWidget {
   @override
@@ -27,34 +34,52 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/splash-screen.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        _categorySection(),
-                        _topDoctorSection(context)
-                      ],
+      body: FutureBuilder<Response<DoctorResponse>>(
+        future: Provider.of<ApiService>(context).getAllDoctor(),
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+            case ConnectionState.waiting:
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              if (snapshot.hasError) {
+                log(snapshot.error);
+                return new Text('Error: ${snapshot.error}');
+              } else
+                return Stack(
+                  children: <Widget>[
+                    Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/splash-screen.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: Stack(
+                          fit: StackFit.expand,
+                          children: <Widget>[
+                            SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  _categorySection(),
+                                  _topDoctorSection(context, snapshot.data.body)
+                                ],
+                              ),
+                            ).onlyPaddingTop150,
+                          ],
+                        )
                     ),
-                  ).onlyPaddingTop150,
-                ],
-              )
-          ),
-          _appBar(),
-          _searchSection().onlyPaddingTop100,
-        ],
+                    _appBar(),
+                    _searchSection().onlyPaddingTop100,
+                  ],
+                );
+//                  createGridListView(context, snapshot.data.body);
+          }
+        },
       )
     );
   }
@@ -162,7 +187,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     );
   }
 
-  Widget _topDoctorSection(BuildContext buildContext) {
+  Widget _topDoctorSection(BuildContext buildContext, DoctorResponse doctorResponse) {
+    print(doctorResponse);
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
