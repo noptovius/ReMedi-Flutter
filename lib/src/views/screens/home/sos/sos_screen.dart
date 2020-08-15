@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/utils/extensions.dart';
+import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
 class SosScreen extends StatefulWidget {
   SosScreen({Key key}) : super(key: key);
@@ -48,13 +50,34 @@ class _SosScreenState extends State<SosScreen> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(90.0),
-                                    child: Container(
-                                      color: Colors.red,
-                                      width: 120,
-                                      height: 120,
-                                    ),
+                                  Stack(
+                                    children: <Widget>[
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(90.0),
+                                        child: Container(
+                                          color: Colors.lightBlueAccent,
+                                          width: 130,
+                                          height: 130,
+                                        ),
+                                      ),
+                                      Positioned(
+                                        left: 10,
+                                        top: 10,
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(90.0),
+                                          child: Container(
+                                            color: Colors.lightBlue,
+                                            width: 110,
+                                            height: 110,
+                                            alignment: Alignment.center,
+                                            child: TitleText(text: "S.O.S", fontSize: 16, color: Colors.white,),
+                                          ).ripple(() {
+
+                                          }),
+                                        ),
+                                      )
+
+                                    ],
                                   )
                                 ],
                               )

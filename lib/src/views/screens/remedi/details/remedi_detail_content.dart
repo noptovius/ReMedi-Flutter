@@ -7,13 +7,13 @@ import 'package:garudahacks/src/views/widgets/common/app_font.dart';
 import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
-class ReMediContent extends StatefulWidget {
+class ReMediDetailContent extends StatefulWidget {
 
   @override
-  _ReMediContentState createState() => _ReMediContentState();
+  _ReMediDetailContentState createState() => _ReMediDetailContentState();
 }
 
-class _ReMediContentState extends State<ReMediContent> {
+class _ReMediDetailContentState extends State<ReMediDetailContent> {
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,8 @@ class _ReMediContentState extends State<ReMediContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _activeDate(),
+            _commonSection("Symptoms", "6 Total", Colors.green),
+            _commonSection("Diagnosed", "2 Total", Colors.pink),
             _medicinesSection(),
             _examinationsSection()
           ],
@@ -35,20 +36,51 @@ class _ReMediContentState extends State<ReMediContent> {
     );
   }
 
-  Widget _activeDate() {
-    return Container(
-      margin: AppTheme.padding,
-      child: Container(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(), _icon(Icons.event_note, color: Colors.black54),
-            SizedBox(width: 10),
-            _titleSection("October 1, 2019", 16, "First Diagnosed", 12),
-          ],
+  Widget _commonSection(String title, String size, Color color) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 4),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _titleSection(title, 16, size, 12),
+            ],
+          ),
         ),
-      )
+        SizedBox(
+          height: AppTheme.fullHeight(context) * .15,
+          width: AppTheme.fullWidth(context),
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) =>
+                _circleItem(Icon(Icons.account_box), "Bisoprofal", color),
+          ).hP16,
+        ).vP8,
+      ],
     );
+  }
+
+  Widget _circleItem(Icon icon, String title, Color color) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          ClipOval(
+            child: Material(
+              color: color, // button color
+              child: SizedBox(width: 80, height: 80, child: icon)
+              ),
+            ),
+          SizedBox(height: 20,),
+          TitleText(
+            text: title,
+            fontSize: 12,
+            color: AppColor.black,
+          ),
+        ],
+      ),
+    ).hP4;
   }
 
   Widget _titleSection(String title, double titleSize, String subtitle, double subtitleSize) {

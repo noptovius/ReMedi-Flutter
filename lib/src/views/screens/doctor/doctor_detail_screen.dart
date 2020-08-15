@@ -66,7 +66,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                     bottomRight: Radius.circular(160),
                   ),
                 ),
-                padding: EdgeInsets.only(top: 20, right: 20),
+                padding: EdgeInsets.only(top: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -319,6 +319,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
         context: context,
         builder: (BuildContext bc) {
           return Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Expanded(
                 child: Container(
