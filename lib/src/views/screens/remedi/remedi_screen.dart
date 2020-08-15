@@ -59,7 +59,7 @@ class _ReMediScreenState extends State<ReMediScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           _icon(
             Icons.arrow_back_ios,
@@ -71,6 +71,7 @@ class _ReMediScreenState extends State<ReMediScreen> {
               Navigator.of(context).pop();
             },
           ),
+          TitleText(text: "Medical Record Details", fontSize: 14, fontWeight: FontWeight.w200,)
         ],
       ),
     );
