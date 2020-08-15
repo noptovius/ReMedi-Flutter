@@ -52,6 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         ),
                         _search(),
                         _nextAppointment(),
+                        _currentMedication(),
                       ],
                     ),
                   ),
@@ -113,122 +114,221 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _nextAppointment() {
     return Container(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.symmetric(vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Icon(
-                Icons.calendar_today,
-                size: 20,
-                color: Theme.of(context).primaryColor,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text("Next Appointments"),
-              Spacer(),
-            ],
-          ),
           Container(
-            padding: EdgeInsets.symmetric(vertical: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
-                    color: Colors.black,
+            margin: EdgeInsets.only(bottom: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.calendar_today,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Next Appointments",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(bottom: 8),
-                        child: Text(
-                          "Check-up Appointment",
+                ),
+                Spacer(),
+              ],
+            ),
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      color: Colors.black,
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(bottom: 8),
+                          child: Text(
+                            "Check-up Appointment",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 10,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.access_alarm,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              "14 Aug 2020, 10am",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 20),
+                    child: ListTile(
+                      leading: AspectRatio(
+                        aspectRatio: 1,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.black,
+                          ),
+                          child: Icon(
+                            Icons.account_box,
+                            color: AppColor.white,
+                          ),
+                        ),
+                      ),
+                      title: Text("dr. Jajang Nurjana, Sp.JP"),
+                      trailing: Icon(Icons.info_outline),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      color: Colors.grey,
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.assignment,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "drug out",
                           style: TextStyle(
-                            color: Colors.white70,
                             fontSize: 10,
                           ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.access_alarm,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text(
-                            "14 Aug 2020, 10am",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 20),
-                  child: ListTile(
-                    leading: AspectRatio(
-                      aspectRatio: 1,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.black,
-                        ),
-                        child: Icon(
-                          Icons.account_box,
-                          color: AppColor.white,
-                        ),
-                      ),
+                      ],
                     ),
-                    title: Text("dr. Jajang Nurjana, Sp.JP"),
-                    trailing: Icon(Icons.info_outline),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _currentMedication() {
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            margin: EdgeInsets.only(
+              bottom: 10,
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Icon(
+                  Icons.calendar_today,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  "Current Medications",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    color: Colors.grey,
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.assignment,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        "drug out",
-                        style: TextStyle(
-                          fontSize: 10,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                Spacer(),
               ],
             ),
-          )
+          ),
+          Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(20),
+                    child: ListTile(
+                      leading: Icon(Icons.local_hospital),
+                      title: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Allopurinol",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            "1 tablets orally 1x/day after meal",
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                  Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      "24 tablets, 24 days",
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
