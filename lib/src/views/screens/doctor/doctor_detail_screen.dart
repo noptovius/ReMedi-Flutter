@@ -14,7 +14,7 @@ import 'package:http/http.dart' as http;
 
 class DoctorDetailScreen extends StatefulWidget {
   final String id;
-  DoctorDetailScreen({Key key, this.id}): super(key: key);
+  DoctorDetailScreen({Key key, this.id}) : super(key: key);
   @override
   _DoctorDetailScreenState createState() => _DoctorDetailScreenState(id);
 }
@@ -47,7 +47,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
     print(id);
     var result = await http.get(Constant.BASE_URL + "doctors/$id");
     print(json.decode(result.body));
-    detailDoctorResponse = DetailDoctorResponse.fromJson(json.decode(result.body));
+    detailDoctorResponse =
+        DetailDoctorResponse.fromJson(json.decode(result.body));
     return detailDoctorResponse;
   }
 
@@ -70,159 +71,195 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
-        child: FutureBuilder<DetailDoctorResponse>(
-          future: fetchDetailDoctor(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (snapshot != null && snapshot.data != null) {
-              print("test ${snapshot.data.doctor.name}");
-              return Container(
-                child: Column(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/images/splash-screen.png"),
-                            fit: BoxFit.cover,
+          height: MediaQuery.of(context).size.height,
+          child: FutureBuilder<DetailDoctorResponse>(
+            future: fetchDetailDoctor(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot != null && snapshot.data != null) {
+                print("test ${snapshot.data.doctor.name}");
+                return Container(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("assets/images/base.png"),
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
+                            borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(160),
+                            ),
                           ),
-                          borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(160),
+                          padding: EdgeInsets.only(top: 20),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _appBar(),
+                              Container(),
+                            ],
                           ),
-                        ),
-                        padding: EdgeInsets.only(top: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _appBar(),
-                            Container(),
-                          ],
                         ),
                       ),
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: Container(
-                        padding: EdgeInsets.all(60),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              snapshot.data.doctor.name == null ? "" : snapshot.data.doctor.name,
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(bottom: 12),
-                              child: Text(
-                                snapshot.data.doctor.specialization == null ? "" : snapshot.data.doctor.specialization,
+                      Expanded(
+                        flex: 3,
+                        child: Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20),
+                          padding: EdgeInsets.all(60),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                snapshot.data.doctor.name == null
+                                    ? ""
+                                    : snapshot.data.doctor.name,
                                 style: TextStyle(
-                                  color: Colors.grey,
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.location_on),
-                                Text(snapshot.data.doctor.address == null ? "" : snapshot.data.doctor.address,),
-                              ],
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              Container(
+                                margin: EdgeInsets.only(bottom: 12),
+                                child: Text(
+                                  snapshot.data.doctor.specialization == null
+                                      ? ""
+                                      : snapshot.data.doctor.specialization,
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Icon(Icons.star),
-                                      Text(' 4.6'),
-                                      Text(
-                                        " (3122 reviews)",
-                                        style: TextStyle(
-                                          color: Colors.grey,
+                                  Icon(
+                                    Icons.location_on,
+                                    color: Constant.PRIMARY_COLOR,
+                                  ),
+                                  Text(
+                                    snapshot.data.doctor.address == null
+                                        ? ""
+                                        : snapshot.data.doctor.address,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 20),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.orangeAccent,
                                         ),
+                                        Text(
+                                          ' 4.6',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Text(
+                                          " (3122 reviews)",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      'See all',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Constant.PRIMARY_COLOR,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  "Stats",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "3644",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Patients",
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ],
                                   ),
-                                  Text('See all'),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "15 years",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Experience",
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
                                 ],
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.symmetric(vertical: 20),
-                              child: Text(
-                                "Stats",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      "3644",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text("Patients"),
-                                  ],
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "15 years",
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 20,
-                                      ),
-                                    ),
-                                    Text("Experience"),
-                                  ],
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 60, left: 40, right: 40),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.black,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: RaisedButton(
-                          color: Colors.black,
-                          onPressed: () => _settingCalendarBottomSheet(context),
-                          child: Text(
-                            "Make Appointment",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
+                              )
+                            ],
                           ),
                         ),
                       ),
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return Container();
-            }
-          },
-        )
-      ),
+                      Container(
+                        margin:
+                            EdgeInsets.only(bottom: 60, left: 40, right: 40),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Constant.PRIMARY_COLOR,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: RaisedButton(
+                            color: Constant.PRIMARY_COLOR,
+                            onPressed: () =>
+                                _settingCalendarBottomSheet(context),
+                            child: Text(
+                              "Make Appointment",
+                              style: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            },
+          )),
     );
   }
 
@@ -287,12 +324,12 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                   margin: EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: Colors.black,
+                    color: Constant.PRIMARY_COLOR,
                   ),
                   child: SizedBox(
                     width: double.infinity,
                     child: RaisedButton(
-                      color: Colors.black,
+                      color: Constant.PRIMARY_COLOR,
                       onPressed: _handleConfirmDate,
                       child: Text(
                         "Confirm Date",
@@ -312,16 +349,16 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   Widget _buildTableCalendar() {
     final Map<DateTime, List> _holidays = new HashMap();
 
-    List.generate(14, (index) => index).forEach((element) {
+    List.generate(15, (index) => index).forEach((element) {
       _holidays[DateTime(2020, 8, element + 1)] = ['outdated'];
     });
     return TableCalendar(
       calendarController: _calendarController,
       startingDayOfWeek: StartingDayOfWeek.monday,
       calendarStyle: CalendarStyle(
-        selectedColor: AppColor.black,
-        todayColor: AppColor.black,
-        markersColor: AppColor.black,
+        selectedColor: Constant.PRIMARY_COLOR,
+        todayColor: Constant.PRIMARY_COLOR,
+        markersColor: Constant.PRIMARY_COLOR,
         holidayStyle: TextStyle(
           color: AppColor.grey,
         ),
@@ -365,8 +402,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                       childAspectRatio: 4,
                     ),
                     itemBuilder: (context, index) => ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: _timeItem(index, _isSelected),
+                      borderRadius: BorderRadius.circular(20),
+                      child: _timeItem(index, _isSelected),
                     ),
                   ),
                 ),
@@ -375,13 +412,13 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                 margin: EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.black,
+                  color: Constant.PRIMARY_COLOR,
                 ),
                 child: SizedBox(
                   width: double.infinity,
                   child: RaisedButton(
-                    color: Colors.black,
-                    onPressed: null,
+                    color: Constant.PRIMARY_COLOR,
+                    onPressed: () {},
                     child: Text(
                       "Confirm Time",
                       style: TextStyle(
@@ -395,7 +432,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
           );
         });
   }
-  
+
   void _setCurrentTime(int index) {
     setState(() {
       _selectedTime = index;
@@ -405,8 +442,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   Widget _timeItem(int selectedTime, bool _selected) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Constant.PRIMARY_COLOR, width: 1)),
       child: SizedBox(
         width: double.infinity,
         child: RaisedButton(
@@ -418,11 +455,15 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             });
             print("as $selectedTime $_isSelected");
           },
-          color: selectedTime == _selectedTime ? _isSelected ? Colors.grey : Colors.black : Colors.black,
+          color: selectedTime == _selectedTime
+              ? _isSelected ? Colors.white : Constant.PRIMARY_COLOR
+              : Constant.PRIMARY_COLOR,
           child: Text(
             times[selectedTime],
             style: TextStyle(
-              color: Colors.white,
+              color: selectedTime == _selectedTime
+                  ? _isSelected ? Constant.PRIMARY_COLOR : Colors.white
+                  : Colors.white,
             ),
           ),
         ),

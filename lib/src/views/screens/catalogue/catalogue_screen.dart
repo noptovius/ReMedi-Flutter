@@ -14,8 +14,16 @@ class CatalogueScreen extends StatefulWidget {
 }
 
 class _CatalogueScreenState extends State<CatalogueScreen> {
-
   List<Doctor> doctors = new List();
+
+  List<String> _categories = [
+    "General-Practicioner",
+    "Dentist",
+    "Cardiologist",
+    "Dermatologist",
+    "Pulmonologist",
+    "Urologist"
+  ];
 
   Future<List<dynamic>> fetchDoctors() async {
     var result = await http.get(Constant.BASE_URL + "doctors");
@@ -24,53 +32,50 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     return doctors;
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("assets/images/splash-screen.png"),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: FutureBuilder<List<dynamic>>(
-                future: fetchDoctors(),
-                builder: (context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                      return Stack(
-                        fit: StackFit.expand,
+        body: Stack(children: <Widget>[
+      Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/base.png"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: FutureBuilder<List<dynamic>>(
+            future: fetchDoctors(),
+            builder: (context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return Stack(
+                  fit: StackFit.expand,
+                  children: <Widget>[
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          SingleChildScrollView(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                _categorySection(),
-                                _topDoctorSection(context, doctors)
-                              ],
-                            ),
-                          ).onlyPaddingTop150,
+                          _categorySection(),
+                          _topDoctorSection(context, doctors)
                         ],
-                      );
-                  } else {
-                      print(snapshot.error);
-                      return Container();
-                  }
-                },
-              )
-    ),
-          _appBar(),
-          _searchSection().onlyPaddingTop100
-        ]));
+                      ),
+                    ).onlyPaddingTop150,
+                  ],
+                );
+              } else {
+                print(snapshot.error);
+                return Container();
+              }
+            },
+          )),
+      _appBar(),
+      _searchSection().onlyPaddingTop100
+    ]));
   }
 
   Widget _appBar() {
     return Container(
-      margin: EdgeInsets.only(top:40),
+      margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -85,7 +90,12 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               Navigator.of(context).pop();
             },
           ),
-          TitleText(text: "Catalogue", fontSize: 14, fontWeight: FontWeight.w200, color: Colors.white,)
+          TitleText(
+            text: "Catalogue",
+            fontSize: 14,
+            fontWeight: FontWeight.w200,
+            color: Colors.white,
+          )
         ],
       ),
     );
@@ -147,22 +157,28 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-//              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  ClipRRect(
+              itemCount: _categories.length,
+              itemBuilder: (BuildContext context, int index) => ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 child: Card(
                   child: Container(
-                    width: MediaQuery.of(context).size.width / 3.2,
-                    padding: EdgeInsets.all(12),
-                    child: Center(
-                      child: Text(
-                        "dummy"
-//                        items[index],
-//                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
+                      width: MediaQuery.of(context).size.width / 3.2,
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Image.asset(
+                            "assets/images/" +
+                                _categories[index].toLowerCase() +
+                                ".png",
+                            width: 40,
+                          ),
+                          Text(
+                            _categories[index].replaceAll("-", " "),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      )),
                 ),
               ),
             ),
@@ -184,71 +200,99 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
         ),
         color: Colors.white,
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Top Doctors",
-            style: TextStyle(
-              fontSize: 20,
-            ),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          "Top Doctors",
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
           ),
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: doctors.length,
-            itemBuilder: (context, index) => Column(
-              children: <Widget>[
-                ListTile(
-                  leading: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(
-                        10,
-                      ),
-                      color: Colors.black,
+        ),
+        ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: doctors.length,
+          itemBuilder: (context, index) => Column(
+            children: <Widget>[
+              ListTile(
+                leading: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      10,
                     ),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Icon(
-                        Icons.person,
-                        color: Colors.white,
-                      ),
+                    color: Constant.PRIMARY_COLOR,
+                  ),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
                     ),
-                  ),
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleText(text: doctors[index].name == null ? "" : doctors[index].name, fontSize: 12,),
-                      TitleText(text: doctors[index].specialization == null ? "" : doctors[index].specialization, fontSize: 10,),
-                      TitleText(text: doctors[index].address == null ? "" : doctors[index].address, fontSize: 10,),
-                    ],
-                  ).ripple(() {
-                    Navigator.push(
-                        buildContext,
-                        MaterialPageRoute(builder: (context) => DoctorDetailScreen(id: doctors[index].id.toString(),))
-                    );
-                  }
-                  ),
-                  trailing: Icon(
-                    Icons.person,
                   ),
                 ),
-              ],
-            ),
-          )
-        ]
-      ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleText(
+                      text: doctors[index].name == null
+                          ? ""
+                          : doctors[index].name,
+                      fontSize: 12,
+                    ),
+                    TitleText(
+                      text: doctors[index].specialization == null
+                          ? ""
+                          : doctors[index].specialization,
+                      fontSize: 10,
+                    ),
+                    TitleText(
+                      text: doctors[index].address == null
+                          ? ""
+                          : doctors[index].address,
+                      fontSize: 10,
+                    ),
+                  ],
+                ).ripple(() {
+                  Navigator.push(
+                      buildContext,
+                      MaterialPageRoute(
+                          builder: (context) => DoctorDetailScreen(
+                                id: doctors[index].id.toString(),
+                              )));
+                }),
+                trailing: Column(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.orangeAccent,
+                      size: 16,
+                    ),
+                    Text(
+                      doctors[index].rating.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ]),
     );
   }
 
   Widget _icon(
-      IconData icon, {
-        Color color = Colors.white,
-        double size = 20,
-        double padding = 10,
-        bool isOutLine = false,
-        Function onPressed,
-      }) {
+    IconData icon, {
+    Color color = Colors.white,
+    double size = 20,
+    double padding = 10,
+    bool isOutLine = false,
+    Function onPressed,
+  }) {
     return Container(
       height: 40,
       width: 40,
@@ -259,7 +303,6 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     ).ripple(() {
       if (onPressed != null) {
         onPressed();
-
       }
     }, borderRadius: BorderRadius.all(Radius.circular(13)));
   }
