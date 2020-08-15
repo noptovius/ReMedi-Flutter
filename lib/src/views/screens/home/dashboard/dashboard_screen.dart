@@ -31,7 +31,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               builder: (context, scrollController) {
                 return Container(
                   height: AppTheme.fullHeight(context) * .5,
-                  padding: EdgeInsets.only(left:19,right:19,top: 16),//symmetric(horizontal: 19, vertical: 16),
+                  padding: EdgeInsets.only(
+                      left: 19,
+                      right: 19,
+                      top: 16), //symmetric(horizontal: 19, vertical: 16),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
@@ -44,27 +47,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        SizedBox(height: 20,),
-                        _search(),
-                        ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          title: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Test",
-//                                style: titleStyle,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Icon(Icons.check_circle,
-                                  size: 18,
-                                  color: Theme.of(context).primaryColor),
-                              Spacer(),
-                            ],
-                          ),
+                        SizedBox(
+                          height: 20,
                         ),
+                        _search(),
+                        _nextAppointment(),
                       ],
                     ),
                   ),
@@ -94,20 +81,154 @@ class _DashboardScreenState extends State<DashboardScreen> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                   color: AppColor.lightGrey.withAlpha(100),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
+                  borderRadius: BorderRadius.all(Radius.circular(16))),
               child: TextField(
                 decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Search ReMedi services...",
-                    hintStyle: TextStyle(fontSize: 12),
-                    contentPadding:
-                    EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 5),
-                    prefixIcon: Icon(Icons.search, color: Colors.black54)),
+                  border: InputBorder.none,
+                  hintText: "Search ReMedi services...",
+                  hintStyle: TextStyle(fontSize: 12),
+                  contentPadding: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                    bottom: 0,
+                    top: 5,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Colors.black54,
+                  ),
+                ),
               ),
             ),
           ),
           SizedBox(width: 20),
-          Icon(Icons.account_circle, size: 35,),
+          Icon(
+            Icons.account_circle,
+            size: 35,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _nextAppointment() {
+    return Container(
+      padding: EdgeInsets.only(top: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(
+                Icons.calendar_today,
+                size: 20,
+                color: Theme.of(context).primaryColor,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Text("Next Appointments"),
+              Spacer(),
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(vertical: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
+                    color: Colors.black,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          "Check-up Appointment",
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 10,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.access_alarm,
+                            color: Colors.white,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            "14 Aug 2020, 10am",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(vertical: 20),
+                  child: ListTile(
+                    leading: AspectRatio(
+                      aspectRatio: 1,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.black,
+                        ),
+                        child: Icon(
+                          Icons.account_box,
+                          color: AppColor.white,
+                        ),
+                      ),
+                    ),
+                    title: Text("dr. Jajang Nurjana, Sp.JP"),
+                    trailing: Icon(Icons.info_outline),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                    color: Colors.grey,
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.assignment,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "drug out",
+                        style: TextStyle(
+                          fontSize: 10,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -129,36 +250,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   Widget _floatingBottomNavigation() {
     return FloatingNavBar(
-            onTap: (int val) {
-              switch (val) {
-                case 0:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReMediScreen())
-                  );
-                  break;
-                case 1:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CatalogueScreen())
-                  );
-                  break;
-                case 2:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReMediScreen())
-                  );
-                  break;
-                case 3:
-                  break;
-              }
-            },
-            items: [
-              FloatingNavBarItem(icon: Icons.account_circle, title: 'Profile'),
-              FloatingNavBarItem(icon: Icons.local_hospital, title: 'Catalogue'),
-              FloatingNavBarItem(icon: Icons.event_note, title: 'ReMedi'),
-              FloatingNavBarItem(icon: Icons.event, title: 'Schedule'),
-            ],
-          );
+      onTap: (int val) {
+        switch (val) {
+          case 0:
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ReMediScreen()));
+            break;
+          case 1:
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CatalogueScreen()));
+            break;
+          case 2:
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ReMediScreen()));
+            break;
+          case 3:
+            break;
+        }
+      },
+      items: [
+        FloatingNavBarItem(icon: Icons.account_circle, title: 'Profile'),
+        FloatingNavBarItem(icon: Icons.local_hospital, title: 'Catalogue'),
+        FloatingNavBarItem(icon: Icons.event_note, title: 'ReMedi'),
+        FloatingNavBarItem(icon: Icons.event, title: 'Schedule'),
+      ],
+    );
   }
 }
