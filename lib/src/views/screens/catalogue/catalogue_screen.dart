@@ -19,7 +19,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
 
   Future<List<dynamic>> fetchDoctors() async {
     var result = await http.get(Constant.BASE_URL + "doctors");
-    print(json.decode(result.body));
+//    print(json.decode(result.body));
     doctors = DoctorResponse.fromJson(json.decode(result.body)).data;
     return doctors;
   }
@@ -40,9 +40,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               child: FutureBuilder<List<dynamic>>(
                 future: fetchDoctors(),
                 builder: (context, AsyncSnapshot snapshot) {
-                  print(snapshot.toString());
                   if (snapshot.hasData) {
-                      print(snapshot.data);
                       return Stack(
                         fit: StackFit.expand,
                         children: <Widget>[
@@ -199,41 +197,46 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: doctors.length,
-            itemBuilder: (context, index) => ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10,
+            itemBuilder: (context, index) => Column(
+              children: <Widget>[
+                ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(
+                        10,
+                      ),
+                      color: Colors.black,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                  color: Colors.black,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Icon(
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TitleText(text: doctors[index].name == null ? "" : doctors[index].name, fontSize: 12,),
+                      TitleText(text: doctors[index].specialization == null ? "" : doctors[index].specialization, fontSize: 10,),
+                      TitleText(text: doctors[index].address == null ? "" : doctors[index].address, fontSize: 10,),
+                    ],
+                  ).ripple(() {
+                    Navigator.push(
+                        buildContext,
+                        MaterialPageRoute(builder: (context) => DoctorDetailScreen(id: doctors[index].id.toString(),))
+                    );
+                  }
+                  ),
+                  trailing: Icon(
                     Icons.person,
-                    color: Colors.white,
                   ),
                 ),
-              ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TitleText(text: doctors[index].name == null ? "" : doctors[index].name, fontSize: 12,),
-                  TitleText(text: doctors[index].specialization == null ? "" : doctors[index].specialization, fontSize: 10,),
-                  TitleText(text: doctors[index].address == null ? "" : doctors[index].address, fontSize: 10,),
-                ],
-              ),
-              trailing: Icon(
-                Icons.person,
-              ),
-            ).ripple(() {
-              Navigator.push(
-                  buildContext,
-                  MaterialPageRoute(builder: (context) => DoctorDetailScreen())
-              );
-            }),
-          ),
-        ],
+              ],
+            ),
+          )
+        ]
       ),
     );
   }
@@ -256,6 +259,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     ).ripple(() {
       if (onPressed != null) {
         onPressed();
+
       }
     }, borderRadius: BorderRadius.all(Radius.circular(13)));
   }

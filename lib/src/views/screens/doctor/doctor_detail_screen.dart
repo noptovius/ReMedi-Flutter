@@ -1,14 +1,22 @@
 import 'dart:collection';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/models/detail_doctor_response.dart';
+import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:http/http.dart' as http;
 
 class DoctorDetailScreen extends StatefulWidget {
+  final String id;
+  DoctorDetailScreen({Key key, this.id}): super(key: key);
   @override
-  _DoctorDetailScreenState createState() => _DoctorDetailScreenState();
+  _DoctorDetailScreenState createState() => _DoctorDetailScreenState(id);
 }
 
 class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
@@ -30,6 +38,19 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
     "19.00"
   ];
 
+  final String id;
+  _DoctorDetailScreenState(this.id);
+
+  DetailDoctorResponse detailDoctorResponse;
+
+  Future<DetailDoctorResponse> fetchDetailDoctor() async {
+    print(id);
+    var result = await http.get(Constant.BASE_URL + "doctors/$id");
+    print(json.decode(result.body));
+    detailDoctorResponse = DetailDoctorResponse.fromJson(json.decode(result.body));
+    return detailDoctorResponse;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,149 +68,160 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        child: Column(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/splash-screen.png"),
-                    fit: BoxFit.cover,
-                  ),
-                  borderRadius: BorderRadius.only(
-                    bottomRight: Radius.circular(160),
-                  ),
-                ),
-                padding: EdgeInsets.only(top: 20),
+        child: FutureBuilder<DetailDoctorResponse>(
+          future: fetchDetailDoctor(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot != null && snapshot.data != null) {
+              print("test ${snapshot.data.doctor.name}");
+              return Container(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _appBar(),
-                    Container(),
-                  ],
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 3,
-              child: Container(
-                padding: EdgeInsets.all(60),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Dr. Jajang Nurjana, Sp.JP",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 12),
-                      child: Text(
-                        "Cardiologist",
-                        style: TextStyle(
-                          color: Colors.grey,
+                    Expanded(
+                      flex: 2,
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/images/splash-screen.png"),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(160),
+                          ),
+                        ),
+                        padding: EdgeInsets.only(top: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _appBar(),
+                            Container(),
+                          ],
                         ),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on),
-                        Text(" West Jakarta"),
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.star),
-                              Text(' 4.6'),
-                              Text(
-                                " (3122 reviews)",
+                    Expanded(
+                      flex: 3,
+                      child: Container(
+                        padding: EdgeInsets.all(60),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              snapshot.data.doctor.name == null ? "" : snapshot.data.doctor.name,
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 12),
+                              child: Text(
+                                snapshot.data.doctor.specialization == null ? "" : snapshot.data.doctor.specialization,
                                 style: TextStyle(
                                   color: Colors.grey,
                                 ),
                               ),
-                            ],
-                          ),
-                          Text('See all'),
-                        ],
+                            ),
+                            Row(
+                              children: [
+                                Icon(Icons.location_on),
+                                Text(snapshot.data.doctor.address == null ? "" : snapshot.data.doctor.address,),
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.star),
+                                      Text(' 4.6'),
+                                      Text(
+                                        " (3122 reviews)",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Text('See all'),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                "Stats",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Column(
+                                  children: [
+                                    Text(
+                                      "3644",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text("Patients"),
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "15 years",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                    Text("Experience"),
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                      child: Text(
-                        "Stats",
-                        style: TextStyle(
-                          color: Colors.grey,
+                      margin: EdgeInsets.only(bottom: 60, left: 40, right: 40),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black,
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: RaisedButton(
+                          color: Colors.black,
+                          onPressed: () => _settingCalendarBottomSheet(context),
+                          child: Text(
+                            "Make Appointment",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              "3644",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text("Patients"),
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              "15 years",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text("Experience"),
-                          ],
-                        ),
-                      ],
                     )
                   ],
                 ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 60, left: 40, right: 40),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.black,
-              ),
-              child: SizedBox(
-                width: double.infinity,
-                child: RaisedButton(
-                  color: Colors.black,
-                  onPressed: () => _settingCalendarBottomSheet(context),
-                  child: Text(
-                    "Make Appointment",
-                    style: TextStyle(
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            )
-          ],
-        ),
+              );
+            } else {
+              return Container();
+            }
+          },
+        )
       ),
     );
   }
