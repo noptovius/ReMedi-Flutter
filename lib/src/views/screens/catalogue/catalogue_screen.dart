@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
+import 'package:garudahacks/src/views/screens/doctor/doctor_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
 class CatalogueScreen extends StatefulWidget {
@@ -44,7 +45,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         _categorySection(),
-                        _topDoctorSection()
+                        _topDoctorSection(context)
                       ],
                     ),
                   ).onlyPaddingTop150,
@@ -161,7 +162,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     );
   }
 
-  Widget _topDoctorSection() {
+  Widget _topDoctorSection(BuildContext buildContext) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
@@ -213,7 +214,12 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               trailing: Icon(
                 Icons.person,
               ),
-            ),
+            ).ripple(() {
+              Navigator.push(
+                  buildContext,
+                  MaterialPageRoute(builder: (context) => DoctorDetailScreen())
+              );
+            }),
           ),
         ],
       ),
