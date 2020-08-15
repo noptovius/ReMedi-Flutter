@@ -78,7 +78,6 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
                   children: items.map((item) {
                     return widget.itemBuilder(context, item);
                   }).toList(),

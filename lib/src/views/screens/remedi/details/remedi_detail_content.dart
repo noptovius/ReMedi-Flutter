@@ -168,7 +168,7 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
           ),
         ),
         SizedBox(
-          height: AppTheme.fullHeight(context) * .35,
+          height: AppTheme.fullHeight(context) * .2,
           width: AppTheme.fullWidth(context),
           child: ListView(
             scrollDirection: Axis.horizontal,
@@ -191,9 +191,8 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
       subtitleStyle = TextStyles.bodySm;
     }
     return AspectRatio(
-      aspectRatio: 8 / 8,
+      aspectRatio: 1.8,
       child: Container(
-        height: 280,
         width: AppTheme.fullWidth(context) * .5,
         margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
         decoration: BoxDecoration(
@@ -218,19 +217,103 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _titleSection(subtitle, 12, title, 14),
-                    SizedBox(height: 20),
-                    _examinationsContent(),
-                    SizedBox(height: 40),
-                    _examinationsDoctor()
+                    SizedBox(height: 10,),
+                    _seeResultButton()
                   ],
-                ).hP16.vP32
+                ).hP16.vP16
               ],
             ),
           ),
-        ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
+        ),
       ),
     );
   }
+
+  Widget _seeResultButton() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        color: Colors.greenAccent,
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          TitleText(text: "See Result", fontSize: 16, fontWeight: FontWeight.w400,),
+          Icon(Icons.arrow_forward_ios, size: 18,)
+        ],
+      )
+//      ListTile(
+//        leading: ClipRRect(
+//          borderRadius: BorderRadius.all(Radius.circular(13)),
+//          child: Container(
+//            height: 55,
+//            width: 55,
+//            decoration: BoxDecoration(
+//              borderRadius: BorderRadius.circular(15),
+//            ),
+//          ),
+//        ),
+//        contentPadding: EdgeInsets.all(0),
+//        title: Text("See Result"),
+//        trailing: Icon(
+//          Icons.keyboard_arrow_right,
+//          size: 30,
+//          color: Theme.of(context).primaryColor,
+//        ),
+//      ),
+    ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20)));
+  }
+
+//  Widget _examinationsCard(String title, String subtitle) {
+//    TextStyle titleStyle = TextStyles.title;
+//    TextStyle subtitleStyle = TextStyles.body;
+//    if(AppTheme.fullWidth(context) < 392){
+//      titleStyle = TextStyles.body;
+//      subtitleStyle = TextStyles.bodySm;
+//    }
+//    return AspectRatio(
+//      aspectRatio: 8 / 8,
+//      child: Container(
+//        height: 280,
+//        width: AppTheme.fullWidth(context) * .5,
+//        margin: EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 10),
+//        decoration: BoxDecoration(
+//          color: Colors.white,
+//          borderRadius: BorderRadius.all(Radius.circular(20)),
+//          border: Border.all(color: AppColor.black),
+//          boxShadow: <BoxShadow>[
+//            BoxShadow(
+//              offset: Offset(4, 4),
+//              blurRadius: 10,
+//              color: AppColor.white.withOpacity(.8),
+//            )
+//          ],
+//        ),
+//        child: ClipRRect(
+//          borderRadius: BorderRadius.all(Radius.circular(20)),
+//          child: Container(
+//            child: Stack(
+//              children: <Widget>[
+//                Column(
+//                  mainAxisAlignment: MainAxisAlignment.start,
+//                  crossAxisAlignment: CrossAxisAlignment.start,
+//                  children: <Widget>[
+//                    _titleSection(subtitle, 12, title, 14),
+//                    SizedBox(height: 20),
+//                    _examinationsContent(),
+//                    SizedBox(height: 40),
+//                    _examinationsDoctor()
+//                  ],
+//                ).hP16.vP32
+//              ],
+//            ),
+//          ),
+//        ).ripple(() {}, borderRadius: BorderRadius.all(Radius.circular(20))),
+//      ),
+//    );
+//  }
 
   Widget _examinationsContent() {
     return Container(

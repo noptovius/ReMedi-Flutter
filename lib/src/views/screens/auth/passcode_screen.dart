@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/home/home_screen.dart';
+import 'package:garudahacks/src/views/widgets/common/app_color.dart';
+import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 import 'package:garudahacks/src/views/widgets/splash/fade_transition_route.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class PassCodeScreen extends StatefulWidget {
   final String email;
@@ -49,7 +53,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
   }
 
   // Return "Password" input field
-  get _getInputField {
+  Widget _getInputField() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
@@ -70,14 +74,77 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         _getTitle,
-        _getInputField,
-        _getOtpKeyboard
+        _getInputField(),
+        _getOtpKeyboard(),
+        _showBarcodeSection()
       ],
     );
   }
 
+  Widget _showBarcodeSection() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: TitleText(text: "SHOW BARCODE", fontSize: 16, fontWeight: FontWeight.w400, color: AppColor.black,),
+    ).ripple(() {
+        _settingQrBottomSheet(context);
+    });
+  }
+
+  void _settingQrBottomSheet(context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
+              ),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(
+                    left: 40,
+                    right: 40,
+                    top: 40,
+                    bottom: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.black,
+                      width: 4,
+                    ),
+                  ),
+                  child: QrImage(
+                    data: "1",
+                    version: QrVersions.auto,
+                    size: 200.0,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                  child: Text(
+                    "Your medical record will be shared with the doctor or You'll be " +
+                        "added as a friend when your friend scans your QR Code",
+                    textAlign: TextAlign.center,
+                  ),
+                )
+              ],
+            ),
+          );
+        });
+  }
+
   // Returns "Password" keyboard
-  get _getOtpKeyboard {
+  Widget _getOtpKeyboard() {
     return Container(
         height: _screenSize.width - 80,
         child: Column(
@@ -288,7 +355,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
           _sixthDigit.toString();
 
         // Verify your password by here. API call
-      if (password == "123456") {
+      if (password == "112233") {
         Navigator.of(context)
             .pushReplacement(FadeTransitionRoute(page: HomeScreen()));
       }

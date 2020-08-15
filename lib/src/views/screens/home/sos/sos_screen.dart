@@ -4,6 +4,7 @@ import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
 class SosScreen extends StatefulWidget {
   SosScreen({Key key}) : super(key: key);
+
   @override
   _SosScreenState createState() => _SosScreenState();
 }
@@ -36,24 +37,24 @@ class _SosScreenState extends State<SosScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Expanded(
-                            flex: 2,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text("PANIC BUTTON"),
-                                Icon(Icons.info)
-                              ],
-                            )
-                          ),
+                              flex: 2,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text("PANIC BUTTON"),
+                                  Icon(Icons.info)
+                                ],
+                              )),
                           Expanded(
-                            flex: 2,
+                              flex: 2,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
                                   Stack(
                                     children: <Widget>[
                                       ClipRRect(
-                                        borderRadius: BorderRadius.circular(90.0),
+                                        borderRadius:
+                                            BorderRadius.circular(90.0),
                                         child: Container(
                                           color: Colors.lightBlueAccent,
                                           width: 130,
@@ -64,31 +65,31 @@ class _SosScreenState extends State<SosScreen> {
                                         left: 10,
                                         top: 10,
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(90.0),
+                                          borderRadius:
+                                              BorderRadius.circular(90.0),
                                           child: Container(
                                             color: Colors.lightBlue,
                                             width: 110,
                                             height: 110,
                                             alignment: Alignment.center,
-                                            child: TitleText(text: "S.O.S", fontSize: 16, color: Colors.white,),
-                                          ).ripple(() {
-
-                                          }),
+                                            child: TitleText(
+                                              text: "S.O.S",
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                            ),
+                                          ).ripple(() {}),
                                         ),
                                       )
-
                                     ],
                                   )
                                 ],
-                              )
-                          ),
+                              )),
                           Expanded(
                             flex: 1,
                             child: Text("TAP CHOOSE"),
                           ),
                         ],
-                      )
-                  );
+                      ));
                 },
               ),
             ],
