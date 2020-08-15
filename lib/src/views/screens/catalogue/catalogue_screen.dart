@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/doctor/doctor_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class CatalogueScreen extends StatefulWidget {
   @override
@@ -10,19 +14,16 @@ class CatalogueScreen extends StatefulWidget {
 }
 
 class _CatalogueScreenState extends State<CatalogueScreen> {
-  final List<String> items = [
-    "General Practicionare",
-    "Dentist",
-    "Cardiologist",
-    "Dermatologist"
-  ];
 
-  Doctor _doctor = Doctor(
-    rating: 4.7,
-    address: "West Jakarta",
-    name: "Dr A",
-    specialization: "Cardiologist",
-  );
+  List<Doctor> doctors = new List();
+
+  Future<List<dynamic>> fetchDoctors() async {
+    var result = await http.get(Constant.BASE_URL + "doctors");
+    print(json.decode(result.body));
+    doctors = DoctorResponse.fromJson(json.decode(result.body)).data;
+    return doctors;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +37,37 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        _categorySection(),
-                        _topDoctorSection(context)
-                      ],
-                    ),
-                  ).onlyPaddingTop150,
-                ],
+              child: FutureBuilder<List<dynamic>>(
+                future: fetchDoctors(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  print(snapshot.toString());
+                  if (snapshot.hasData) {
+                      print(snapshot.data);
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: <Widget>[
+                          SingleChildScrollView(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                _categorySection(),
+                                _topDoctorSection(context, doctors)
+                              ],
+                            ),
+                          ).onlyPaddingTop150,
+                        ],
+                      );
+                  } else {
+                      print(snapshot.error);
+                      return Container();
+                  }
+                },
               )
-          ),
+    ),
           _appBar(),
-          _searchSection().onlyPaddingTop100,
-        ],
-      )
-    );
+          _searchSection().onlyPaddingTop100
+        ]));
   }
 
   Widget _appBar() {
@@ -138,7 +149,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: items.length,
+//              itemCount: items.length,
               itemBuilder: (BuildContext context, int index) =>
                   ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(25.0)),
@@ -148,8 +159,9 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
                     padding: EdgeInsets.all(12),
                     child: Center(
                       child: Text(
-                        items[index],
-                        textAlign: TextAlign.center,
+                        "dummy"
+//                        items[index],
+//                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -162,7 +174,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
     );
   }
 
-  Widget _topDoctorSection(BuildContext buildContext) {
+  Widget _topDoctorSection(BuildContext buildContext, List<Doctor> doctors) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       padding: EdgeInsets.all(20),
@@ -186,8 +198,8 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (index, context) => ListTile(
+            itemCount: doctors.length,
+            itemBuilder: (context, index) => ListTile(
               leading: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(
@@ -206,9 +218,9 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(_doctor.name),
-                  Text(_doctor.specialization),
-                  Text(_doctor.address)
+                  TitleText(text: doctors[index].name == null ? "" : doctors[index].name, fontSize: 12,),
+                  TitleText(text: doctors[index].specialization == null ? "" : doctors[index].specialization, fontSize: 10,),
+                  TitleText(text: doctors[index].address == null ? "" : doctors[index].address, fontSize: 10,),
                 ],
               ),
               trailing: Icon(
