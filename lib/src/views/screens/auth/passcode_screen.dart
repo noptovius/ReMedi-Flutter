@@ -22,8 +22,8 @@ class PassCodeScreen extends StatefulWidget {
   _PassCodeScreenState createState() => new _PassCodeScreenState();
 }
 
-class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProviderStateMixin {
-
+class _PassCodeScreenState extends State<PassCodeScreen>
+    with SingleTickerProviderStateMixin {
   // Variables
   Size _screenSize;
   int _currentDigit;
@@ -47,8 +47,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
     return Text(
       "Input Your Security Code",
       textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: 16.0, color: Colors.black),
+      style: TextStyle(fontSize: 16.0, color: Colors.white),
     );
   }
 
@@ -84,9 +83,14 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
   Widget _showBarcodeSection() {
     return Container(
       padding: EdgeInsets.all(16),
-      child: TitleText(text: "SHOW BARCODE", fontSize: 16, fontWeight: FontWeight.w400, color: AppColor.black,),
+      child: TitleText(
+        text: "SHOW BARCODE",
+        fontSize: 16,
+        fontWeight: FontWeight.w400,
+        color: AppColor.white,
+      ),
     ).ripple(() {
-        _settingQrBottomSheet(context);
+      _settingQrBottomSheet(context);
     });
   }
 
@@ -119,7 +123,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
                   ),
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.black,
+                      color: Colors.white,
                       width: 4,
                     ),
                   ),
@@ -232,7 +236,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
                   _passwordKeyboardActionButton(
                       label: Icon(
                         Icons.backspace,
-                        color: Colors.black,
+                        color: Colors.white,
                       ),
                       onPressed: () {
                         setState(() {
@@ -246,8 +250,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
                             _thirdDigit = null;
                           else if (_secondDigit != null)
                             _secondDigit = null;
-                          else if (_firstDigit != null)
-                            _firstDigit = null;
+                          else if (_firstDigit != null) _firstDigit = null;
                         });
                       }),
                 ],
@@ -261,9 +264,13 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     _screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: _getAppbar,
-      backgroundColor: Colors.white,
       body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/base.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
         width: _screenSize.width,
         child: _getInputPart,
       ),
@@ -273,14 +280,14 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
   // Returns "Password custom text field"
   Widget _passwordTextField(int digit) {
     return Container(
-        margin: EdgeInsets.only(bottom: 0),
-        width: 20,
-        height: 20,
-        decoration: BoxDecoration(
-        color: digit != null ? Colors.black : Colors.transparent,
+      margin: EdgeInsets.only(bottom: 0),
+      width: 20,
+      height: 20,
+      decoration: BoxDecoration(
+        color: digit != null ? Colors.white : Colors.transparent,
         shape: BoxShape.circle,
-        border: Border.all(color: Colors.black, width: 1)
-    ),
+        border: Border.all(color: Colors.white, width: 1),
+      ),
     );
   }
 
@@ -302,7 +309,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
               label,
               style: TextStyle(
                 fontSize: 30.0,
-                color: Colors.black,
+                color: Colors.white,
               ),
             ),
           ),
@@ -343,9 +350,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
         _fourthDigit = _currentDigit;
       else if (_fifthDigit == null)
         _fifthDigit = _currentDigit;
-      else if (_sixthDigit == null)
-        _sixthDigit = _currentDigit;
-
+      else if (_sixthDigit == null) _sixthDigit = _currentDigit;
 
       var password = _firstDigit.toString() +
           _secondDigit.toString() +
@@ -354,7 +359,7 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
           _fifthDigit.toString() +
           _sixthDigit.toString();
 
-        // Verify your password by here. API call
+      // Verify your password by here. API call
       if (password == "112233") {
         Navigator.of(context)
             .pushReplacement(FadeTransitionRoute(page: HomeScreen()));
@@ -362,4 +367,3 @@ class _PassCodeScreenState extends State<PassCodeScreen> with SingleTickerProvid
     });
   }
 }
-

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';
@@ -8,7 +9,6 @@ import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
 class ReMediScreen extends StatefulWidget {
-
   @override
   _ReMediScreenState createState() => _ReMediScreenState();
 }
@@ -32,39 +32,37 @@ class _ReMediScreenState extends State<ReMediScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Stack(
-          children: <Widget>[
-            Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/splash-screen.png"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          _categorySection("7/28/2020"),
-                          _medicalRecordSection(context)
-                        ],
-                      ),
-                    ).onlyPaddingTop100,
-                  ],
-                )
+      children: <Widget>[
+        Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/splash-screen.png"),
+                fit: BoxFit.cover,
+              ),
             ),
-            _appBar(),
-          ],
-        )
-    );
+            child: Stack(
+              fit: StackFit.expand,
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _categorySection("7/28/2020"),
+                      _medicalRecordSection(context)
+                    ],
+                  ),
+                ).onlyPaddingTop100,
+              ],
+            )),
+        _appBar(),
+      ],
+    ));
   }
 
   Widget _appBar() {
     return Container(
-      margin: EdgeInsets.only(top:40),
+      margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -79,7 +77,12 @@ class _ReMediScreenState extends State<ReMediScreen> {
               Navigator.of(context).pop();
             },
           ),
-          TitleText(text: "Medical Record", fontSize: 14, fontWeight: FontWeight.w200, color: Colors.white,)
+          TitleText(
+            text: "Medical Record",
+            fontSize: 14,
+            fontWeight: FontWeight.w200,
+            color: Colors.white,
+          )
         ],
       ),
     );
@@ -124,35 +127,35 @@ class _ReMediScreenState extends State<ReMediScreen> {
       child: SizedBox(
         height: 150,
         child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) =>
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Material(
-                        color: Colors.blue, // button color
-                        child: SizedBox(width: 80, height: 80, child: Icon(Icons.menu)
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemCount: items.length,
+            itemBuilder: (BuildContext context, int index) => Container(
+                  child: Column(
+                    children: <Widget>[
+                      ClipOval(
+                        child: Material(
+                          color: Colors.blue, // button color
+                          child: SizedBox(
+                              width: 80, height: 80, child: Icon(Icons.menu)),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    TitleText(
-                      text: vitalText,
-                      fontSize: 12,
-                      color: AppColor.white,
-                    ),
-                    TitleText(
-                      text: vitalValue,
-                      fontSize: 12,
-                      color: AppColor.white,
-                    ),
-                  ],
-                ),
-              ).hP16
-        ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      TitleText(
+                        text: vitalText,
+                        fontSize: 12,
+                        color: AppColor.white,
+                      ),
+                      TitleText(
+                        text: vitalValue,
+                        fontSize: 12,
+                        color: AppColor.white,
+                      ),
+                    ],
+                  ),
+                ).hP16),
       ),
     );
   }
@@ -169,56 +172,53 @@ class _ReMediScreenState extends State<ReMediScreen> {
         ),
         color: Colors.white,
       ),
-      child:
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (index, context) => ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10,
-                  ),
-                  color: Colors.black,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
-                  ),
-                ),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: 10,
+        itemBuilder: (index, context) => ListTile(
+          leading: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                10,
               ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(_doctor.name),
-                  Text(_doctor.specialization),
-                  Text(_doctor.address)
-                ],
-              ),
-              trailing: Icon(
+              color: Colors.black,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1,
+              child: Icon(
                 Icons.person,
+                color: Colors.white,
               ),
-            ).ripple(() {
-              Navigator.push(
-                  buildContext,
-                  MaterialPageRoute(builder: (context) => ReMediDetailScreen())
-              );
-            }),
+            ),
           ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(_doctor.name),
+              Text(_doctor.specialization),
+              Text(_doctor.address)
+            ],
+          ),
+          trailing: Icon(
+            Icons.person,
+          ),
+        ).ripple(() {
+          Navigator.push(buildContext,
+              MaterialPageRoute(builder: (context) => ReMediDetailScreen()));
+        }),
+      ),
     );
   }
 
   Widget _icon(
-      IconData icon, {
-        Color color = Colors.white,
-        double size = 20,
-        double padding = 10,
-        bool isOutLine = false,
-        Function onPressed,
-      }) {
+    IconData icon, {
+    Color color = Colors.white,
+    double size = 20,
+    double padding = 10,
+    bool isOutLine = false,
+    Function onPressed,
+  }) {
     return Container(
       height: 40,
       width: 40,
@@ -232,5 +232,4 @@ class _ReMediScreenState extends State<ReMediScreen> {
       }
     }, borderRadius: BorderRadius.all(Radius.circular(13)));
   }
-
 }

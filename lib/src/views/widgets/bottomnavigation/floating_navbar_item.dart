@@ -6,7 +6,7 @@ class FloatingNavBarItem {
   final Widget customWidget;
 
   FloatingNavBarItem({
-    @required this.icon,
+    this.icon,
     @required this.title,
     this.customWidget = const SizedBox(),
   });
