@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/views/screens/remedi/remedi_screen.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar_item.dart';
+
+import '../../../widgets/splash/fade_transition_route.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -43,7 +46,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                       bottomNavigationBar: FloatingNavBar(
                           onTap: (int val) {
-                            //returns tab id which is user tapped
+                            switch (val) {
+                              case 0:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ReMediScreen())
+                                );
+                                break;
+                              case 1:
+                                break;
+                              case 2:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => ReMediScreen())
+                                );
+                                break;
+                              case 3:
+                                break;
+                            }
+                            if (val == 0) {
+
+                            }
                           },
                           items: [
                             FloatingNavBarItem(icon: Icons.account_circle, title: 'Profile'),
@@ -60,7 +83,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           child: FloatingActionButton(
                             onPressed: () {},
                             child: Icon(
-                              Icons.move_to_inbox,
+                              Icons.account_box,
                               color: Colors.white,
                             ),
                             // elevation: 5.0,

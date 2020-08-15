@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:garudahacks/src/utils/destination.dart';
 import 'package:garudahacks/src/views/screens/home/dashboard/dashboard_screen.dart';
 import 'package:garudahacks/src/views/screens/home/history/history_screen.dart';
 import 'package:garudahacks/src/views/screens/home/sos/sos_screen.dart';
@@ -16,53 +15,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen>
-    with TickerProviderStateMixin<HomeScreen> {
-  List<Key> _destinationKeys;
-  List<AnimationController> _faders;
-  AnimationController _hide;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _faders =
-        allDestinations.map<AnimationController>((Destination destination) {
-          return AnimationController(
-              vsync: this, duration: Duration(milliseconds: 200));
-        }).toList();
-    _faders[_currentIndex].value = 1.0;
-    _destinationKeys =
-        List<Key>.generate(allDestinations.length, (int index) => GlobalKey())
-            .toList();
-    _hide = AnimationController(vsync: this, duration: kThemeAnimationDuration);
-  }
-
-  @override
-  void dispose() {
-    for (AnimationController controller in _faders) controller.dispose();
-    _hide.dispose();
-    super.dispose();
-  }
-
-  bool _handleScrollNotification(ScrollNotification notification) {
-    if (notification.depth == 0) {
-      if (notification is UserScrollNotification) {
-        final UserScrollNotification userScroll = notification;
-        switch (userScroll.direction) {
-          case ScrollDirection.forward:
-            _hide.forward();
-            break;
-          case ScrollDirection.reverse:
-            _hide.reverse();
-            break;
-          case ScrollDirection.idle:
-            break;
-        }
-      }
-    }
-    return false;
-  }
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
