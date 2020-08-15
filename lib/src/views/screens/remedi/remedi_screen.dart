@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
-import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';
-import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
 class ReMediScreen extends StatefulWidget {
@@ -21,12 +19,12 @@ class _ReMediScreenState extends State<ReMediScreen> {
     "Dermatologist"
   ];
 
-  Doctor _doctor = Doctor(
-    rating: 4.7,
-    address: "West Jakarta",
-    name: "Dr A",
-    specialization: "Cardiologist",
-  );
+//  Doctor _doctor = Doctor(
+//    rating: 4.7,
+//    address: "West Jakarta",
+//    name: "Dr A",
+//    specialization: "Cardiologist",
+//  );
 
   @override
   Widget build(BuildContext context) {
@@ -172,42 +170,45 @@ class _ReMediScreenState extends State<ReMediScreen> {
         ),
         color: Colors.white,
       ),
-      child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 10,
-        itemBuilder: (index, context) => ListTile(
-          leading: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(
-                10,
+      child:
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: 10,
+            itemBuilder: (index, context) => ListTile(
+              leading: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(
+                    10,
+                  ),
+                  color: Colors.black,
+                ),
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  ),
+                ),
               ),
-              color: Colors.black,
-            ),
-            child: AspectRatio(
-              aspectRatio: 1,
-              child: Icon(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+//                  Text(_doctor.name),
+//                  Text(_doctor.specialization),
+//                  Text(_doctor.address)
+                ],
+              ),
+              trailing: Icon(
                 Icons.person,
-                color: Colors.white,
               ),
-            ),
+            ).ripple(() {
+              Navigator.push(
+                  buildContext,
+                  MaterialPageRoute(builder: (context) => ReMediDetailScreen())
+              );
+            }),
           ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(_doctor.name),
-              Text(_doctor.specialization),
-              Text(_doctor.address)
-            ],
-          ),
-          trailing: Icon(
-            Icons.person,
-          ),
-        ).ripple(() {
-          Navigator.push(buildContext,
-              MaterialPageRoute(builder: (context) => ReMediDetailScreen()));
-        }),
-      ),
     );
   }
 

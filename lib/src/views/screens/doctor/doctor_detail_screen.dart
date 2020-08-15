@@ -2,9 +2,9 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/detail_doctor_response.dart';
-import 'package:garudahacks/src/models/doctor.dart';
-import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/models/doctor/detail_doctor_response.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor_response.dart';
 import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';

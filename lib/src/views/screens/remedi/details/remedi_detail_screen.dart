@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_content.dart';
 import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
