@@ -1,19 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/models/doctor.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
-import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_screen.dart';
-import 'package:garudahacks/src/views/widgets/common/app_color.dart';
-import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 
-class ReMediScreen extends StatefulWidget {
-
+class CatalogueScreen extends StatefulWidget {
   @override
-  _ReMediScreenState createState() => _ReMediScreenState();
+  _CatalogueScreenState createState() => _CatalogueScreenState();
 }
 
-class _ReMediScreenState extends State<ReMediScreen> {
+class _CatalogueScreenState extends State<CatalogueScreen> {
   final List<String> items = [
     "General Practicionare",
     "Dentist",
@@ -31,34 +26,35 @@ class _ReMediScreenState extends State<ReMediScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/splash-screen.png"),
-                    fit: BoxFit.cover,
-                  ),
+      body: Stack(
+        children: <Widget>[
+          Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/splash-screen.png"),
+                  fit: BoxFit.cover,
                 ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          _categorySection("7/28/2020"),
-                          _medicalRecordSection(context)
-                        ],
-                      ),
-                    ).onlyPaddingTop100,
-                  ],
-                )
-            ),
-            _appBar(),
-          ],
-        )
+              ),
+              child: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        _categorySection(),
+                        _topDoctorSection()
+                      ],
+                    ),
+                  ).onlyPaddingTop150,
+                ],
+              )
+          ),
+          _appBar(),
+          _searchSection().onlyPaddingTop100,
+        ],
+      )
     );
   }
 
@@ -79,13 +75,34 @@ class _ReMediScreenState extends State<ReMediScreen> {
               Navigator.of(context).pop();
             },
           ),
-          TitleText(text: "Medical Record", fontSize: 14, fontWeight: FontWeight.w200, color: Colors.white,)
+          TitleText(text: "Catalogue", fontSize: 14, fontWeight: FontWeight.w200, color: Colors.white,)
         ],
       ),
     );
   }
 
-  Widget _categorySection(String date) {
+  Widget _searchSection() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      margin: EdgeInsets.only(bottom: 30),
+      child: TextField(
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(vertical: 4),
+          border: new OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              const Radius.circular(10.0),
+            ),
+          ),
+          prefixIcon: Icon(Icons.search),
+          hintText: 'Search any doctors...',
+          fillColor: Colors.white,
+          filled: true,
+        ),
+      ),
+    );
+  }
+
+  Widget _categorySection() {
     return Column(
       children: <Widget>[
         Container(
@@ -96,14 +113,14 @@ class _ReMediScreenState extends State<ReMediScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Vital Sign",
+                  "Categories",
                   style: TextStyle(
                     fontSize: 18,
                     color: Colors.white,
                   ),
                 ),
                 Text(
-                  "Last checked: " + date,
+                  "See All",
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.white,
@@ -113,54 +130,41 @@ class _ReMediScreenState extends State<ReMediScreen> {
             ),
           ),
         ),
-        _vitalSignItem("Test", "2384092")
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: SizedBox(
+            height: 150,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: items.length,
+              itemBuilder: (BuildContext context, int index) =>
+                  ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                child: Card(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3.2,
+                    padding: EdgeInsets.all(12),
+                    child: Center(
+                      child: Text(
+                        items[index],
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
 
-  Widget _vitalSignItem(String vitalText, String vitalValue) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        height: 150,
-        child: ListView.builder(
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) =>
-              Container(
-                child: Column(
-                  children: <Widget>[
-                    ClipOval(
-                      child: Material(
-                        color: Colors.blue, // button color
-                        child: SizedBox(width: 80, height: 80, child: Icon(Icons.menu)
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20,),
-                    TitleText(
-                      text: vitalText,
-                      fontSize: 12,
-                      color: AppColor.white,
-                    ),
-                    TitleText(
-                      text: vitalValue,
-                      fontSize: 12,
-                      color: AppColor.white,
-                    ),
-                  ],
-                ),
-              ).hP16
-        ),
-      ),
-    );
-  }
-
-  Widget _medicalRecordSection(BuildContext buildContext) {
+  Widget _topDoctorSection() {
     return Container(
       margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.only(left: 20, right: 20),
+      padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -169,7 +173,15 @@ class _ReMediScreenState extends State<ReMediScreen> {
         ),
         color: Colors.white,
       ),
-      child:
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Top Doctors",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
           ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -201,13 +213,10 @@ class _ReMediScreenState extends State<ReMediScreen> {
               trailing: Icon(
                 Icons.person,
               ),
-            ).ripple(() {
-              Navigator.push(
-                  buildContext,
-                  MaterialPageRoute(builder: (context) => ReMediDetailScreen())
-              );
-            }),
+            ),
           ),
+        ],
+      ),
     );
   }
 
@@ -232,5 +241,4 @@ class _ReMediScreenState extends State<ReMediScreen> {
       }
     }, borderRadius: BorderRadius.all(Radius.circular(13)));
   }
-
 }

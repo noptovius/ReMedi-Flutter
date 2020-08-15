@@ -45,4 +45,10 @@ extension PaddingHelper on Widget {
       Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
   Padding get vP4 =>
       Padding(padding: EdgeInsets.symmetric(vertical: 8), child: this);
+
+  Padding get onlyPaddingTop100 =>
+      Padding(padding: EdgeInsets.only(top: 100), child: this);
+
+  Padding get onlyPaddingTop150 =>
+      Padding(padding: EdgeInsets.only(top: 150), child: this);
 }
