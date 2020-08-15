@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/views/screens/qrcode/qr_code_screen.dart';
 import 'package:garudahacks/src/views/screens/remedi/remedi_screen.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar_item.dart';
-
-import '../../../widgets/splash/fade_transition_route.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({Key key}) : super(key: key);
@@ -81,7 +80,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         width: 65.0,
                         child: FittedBox(
                           child: FloatingActionButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => QrCodeScreen())
+                              );
+                            },
                             child: Icon(
                               Icons.account_box,
                               color: Colors.white,
