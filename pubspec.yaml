@@ -35,7 +35,7 @@ dependencies:
   google_fonts: ^0.3.9
   table_calendar: ^2.2.3
   path_provider: ^1.4.0
-  # barcode_scan: ^0.0.4
+  qr_code_scanner: ^0.0.13
   qr_flutter: 3.1.0
 
 dev_dependencies:

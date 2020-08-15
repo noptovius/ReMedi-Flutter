@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:flutter/services.dart';
-import 'dart:async';
-import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:io';
 import 'package:flutter/rendering.dart';
-import 'package:path_provider/path_provider.dart';
 
 class QrCodeScreen extends StatefulWidget {
   @override
@@ -16,7 +12,7 @@ class QrCodeScreen extends StatefulWidget {
 }
 
 class _QrCodeScreenState extends State<QrCodeScreen> {
-  GlobalKey globalKey = new GlobalKey();
+  final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   Widget build(BuildContext context) {
@@ -62,26 +58,10 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
           bottomLeft: Radius.circular(16),
           bottomRight: Radius.circular(16),
         ),
-        color: Colors.white10,
       ),
       child: Column(
         children: [
           _appBar(),
-          Container(
-            margin: EdgeInsets.only(bottom: 20),
-            child: Icon(
-              Icons.person_pin,
-              size: 60,
-              color: Colors.white,
-            ),
-          ),
-          Text(
-            "Antoni Wijaya",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          )
         ],
       ),
     );
@@ -101,7 +81,20 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            width: 200,
+            height: 200,
+            child: QRView(
+              key: qrKey,
+              onQRViewCreated: (controller) {
+                controller.scannedDataStream.listen((value) {
+                  setState(() {});
+                });
+              },
+            ),
+          ),
           Container(
+            margin: EdgeInsets.only(top: 20),
             child: RaisedButton(
               onPressed: () => _settingQrBottomSheet(context),
               color: Colors.black,
