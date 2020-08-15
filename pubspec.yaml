@@ -32,6 +32,7 @@ dependencies:
   provider: ^4.3.1
   chopper: 3.0.3
   cached_network_image: 2.2.0+1
+  google_fonts: ^0.3.9
 
 dev_dependencies:
   flutter_test:
