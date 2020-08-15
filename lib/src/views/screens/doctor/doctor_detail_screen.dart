@@ -15,6 +15,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
   CalendarController _calendarController;
   DateTime _selectedDay;
   int _selectedTime;
+  bool _isSelected;
 
   List<String> times = [
     "10.00",
@@ -34,6 +35,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
     super.initState();
     _selectedDay = DateTime.now();
     _selectedTime = 0;
+    _isSelected = false;
     _calendarController = CalendarController();
   }
 
@@ -64,7 +66,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                     bottomRight: Radius.circular(160),
                   ),
                 ),
-                padding: EdgeInsets.only(top: 20, left: 20, right: 20),
+                padding: EdgeInsets.only(top: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -178,7 +180,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                   color: Colors.black,
                   onPressed: () => _settingCalendarBottomSheet(context),
                   child: Text(
-                    "Confirm Date",
+                    "Make Appointment",
                     style: TextStyle(
                       color: Colors.white,
                     ),
@@ -331,25 +333,8 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                     ),
                     itemBuilder: (context, index) => ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.black,
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: RaisedButton(
-                              color: Colors.black,
-                              onPressed: null,
-                              child: Text(
-                                times[index],
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
+                        child: _timeItem(index, _isSelected),
+                    ),
                   ),
                 ),
               ),
@@ -376,5 +361,39 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             ],
           );
         });
+  }
+  
+  void _setCurrentTime(int index) {
+    setState(() {
+      _selectedTime = index;
+    });
+  }
+
+  Widget _timeItem(int selectedTime, bool _selected) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: RaisedButton(
+          onPressed: () {
+            setState(() {
+              _setCurrentTime(selectedTime);
+              _isSelected = true;
+              _handleConfirmDate();
+            });
+            print("as $selectedTime $_isSelected");
+          },
+          color: selectedTime == _selectedTime ? _isSelected ? Colors.grey : Colors.black : Colors.black,
+          child: Text(
+            times[selectedTime],
+            style: TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
