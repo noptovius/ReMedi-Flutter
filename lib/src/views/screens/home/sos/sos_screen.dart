@@ -19,9 +19,9 @@ class _SosScreenState extends State<SosScreen> {
           child: Stack(
             children: <Widget>[
               DraggableScrollableSheet(
-                initialChildSize: 1.0,
+                initialChildSize: 0.98,
                 minChildSize: 0.5,
-                maxChildSize: 1.0,
+                maxChildSize: 0.98,
                 builder:
                     (BuildContext context, ScrollController scrollController) {
                   return Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/views/screens/catalogue/catalogue_screen.dart';
-import 'package:garudahacks/src/views/screens/qrcode//qr_code_screen.dart';
+import 'package:garudahacks/src/views/screens/qrcode/qr_code_screen.dart';
 import 'package:garudahacks/src/views/screens/remedi/remedi_screen.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar_item.dart';
@@ -25,8 +26,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         child: Stack(
           children: <Widget>[
             DraggableScrollableSheet(
-              maxChildSize: 1.0,
-              initialChildSize: 1.0,
+              maxChildSize: 0.98,
+              initialChildSize: 0.98,
               minChildSize: .6,
               builder: (context, scrollController) {
                 return Container(
@@ -51,6 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           height: 20,
                         ),
                         _search(),
+                        _covidBanner(),
                         _nextAppointment(),
                         _currentMedication(),
                       ],
@@ -60,10 +62,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             Positioned(
-              bottom: 0.0,
+              bottom: 30,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 child: _floatingBottomNavigation(),
+              ),
+            ),
+            Positioned(
+              bottom: 50,
+              child: SizedBox(
+                height: 80,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(90.0),
+                      child: Container(
+                        color: Constant.PRIMARY_COLOR,
+                        padding: EdgeInsets.all(16),
+                        child: Icon(
+                          Icons.apps,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ).ripple(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QrCodeScreen()));
+                    })
+                  ],
+                ),
               ),
             )
           ],
@@ -112,6 +141,59 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Widget _covidBanner() {
+    return Container(
+      margin: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.all(20),
+      width: double.infinity,
+      height: 200,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/covid.png"),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(
+          20,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            child: Text(
+              "Do you have symptomps of COVID-19 ?",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Constant.PRIMARY_COLOR,
+            ),
+            child: FlatButton(
+              color: Colors.transparent,
+              onPressed: () {},
+              child: Text(
+                "Contact a doctor",
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget _nextAppointment() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -126,6 +208,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 Icon(
                   Icons.calendar_today,
                   size: 20,
+                  color: Constant.PRIMARY_COLOR,
                 ),
                 SizedBox(
                   width: 10,
@@ -155,7 +238,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
-                      color: Colors.black,
+                      color: Constant.SECONDARY_COLOR,
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -192,17 +275,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 20),
+                    margin: EdgeInsets.symmetric(vertical: 30),
                     child: ListTile(
                       leading: AspectRatio(
                         aspectRatio: 1,
                         child: Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: Colors.black,
+                            color: Constant.PRIMARY_COLOR,
                           ),
                           child: Icon(
-                            Icons.account_box,
+                            Icons.person,
                             color: AppColor.white,
                           ),
                         ),
@@ -218,7 +301,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),
                       ),
-                      color: Colors.grey,
+                      color: Constant.LIGHT_GRAY_COLOR,
                     ),
                     child: Row(
                       children: [
@@ -258,9 +341,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Icon(
-                  Icons.calendar_today,
-                  size: 20,
+                SizedBox(
+                  width: 20,
+                  child: Image.asset("assets/images/medication.png"),
                 ),
                 SizedBox(
                   width: 10,
@@ -371,6 +454,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       items: [
         FloatingNavBarItem(icon: Icons.account_circle, title: 'Profile'),
         FloatingNavBarItem(icon: Icons.local_hospital, title: 'Catalogue'),
+        FloatingNavBarItem(title: 'Pairing'),
         FloatingNavBarItem(icon: Icons.event_note, title: 'ReMedi'),
         FloatingNavBarItem(icon: Icons.event, title: 'Schedule'),
       ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar_item.dart';
 
 typedef Widget ItemBuilder(BuildContext context, FloatingNavBarItem items);
@@ -23,11 +24,11 @@ class FloatingNavBar extends StatefulWidget {
     this.currentIndex,
     @required this.onTap,
     ItemBuilder itemBuilder,
-    this.backgroundColor = Colors.blue,
+    this.backgroundColor = Colors.white,
     this.selectedBackgroundColor = Colors.transparent,
     this.selectedItemColor = Colors.black,
     this.iconSize = 25.0,
-    this.fontSize = 11.0,
+    this.fontSize = 8.0,
     this.borderRadius = 20,
     this.itemBorderRadius = 20,
     this.unselectedItemColor = Colors.blueGrey,
@@ -58,34 +59,48 @@ class _FloatingNavBarState extends State<FloatingNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return BottomAppBar(
-      shape: CircularNotchedRectangle(),
-      color: Colors.transparent,
-      elevation: 0,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            child: Container(
-              padding: EdgeInsets.only(bottom: 8, top: 8),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(widget.borderRadius),
-                color: widget.backgroundColor,
-              ),
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: items.map((item) {
-                    return widget.itemBuilder(context, item);
-                  }).toList(),
+    return Container(
+      decoration: BoxDecoration(boxShadow: [
+        new BoxShadow(
+          color: Colors.grey.withOpacity(.5),
+          blurRadius: 10.0,
+          spreadRadius: 0.0,
+          offset: Offset(
+            5.0, // Move to right 10  horizontally
+            5.0, // Move to bottom 10 Vertically
+          ),
+        ),
+      ]),
+      margin: EdgeInsets.symmetric(horizontal: 20),
+      child: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        color: Colors.transparent,
+        elevation: 0,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              child: Container(
+                padding: EdgeInsets.only(bottom: 8, top: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(widget.borderRadius),
+                  color: widget.backgroundColor,
+                ),
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: items.map((item) {
+                      return widget.itemBuilder(context, item);
+                    }).toList(),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -105,56 +120,54 @@ ItemBuilder _defaultItemBuilder({
   double borderRadius,
 }) {
   return (BuildContext context, FloatingNavBarItem item) => Expanded(
-    child: Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        AnimatedContainer(
-          duration: Duration(milliseconds: 300),
-          decoration: BoxDecoration(
-              color: currentIndex == items.indexOf(item)
-                  ? selectedBackgroundColor
-                  : backgroundColor,
-              borderRadius: BorderRadius.circular(itemBorderRadius)),
-          child: InkWell(
-            onTap: () {
-              onTap(items.indexOf(item));
-            },
-            borderRadius: BorderRadius.circular(8),
-            child: Container(
-              //max-width for each item
-              //24 is the padding from left and right
-              width: MediaQuery.of(context).size.width *
-                  (100 / (items.length * 100)) -
-                  24,
-              padding: EdgeInsets.all(8),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    item.icon,
-                    color: currentIndex == items.indexOf(item)
-                        ? selectedItemColor
-                        : unselectedItemColor,
-                    size: iconSize,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              decoration: BoxDecoration(
+                  color: currentIndex == items.indexOf(item)
+                      ? selectedBackgroundColor
+                      : backgroundColor,
+                  borderRadius: BorderRadius.circular(itemBorderRadius)),
+              child: InkWell(
+                onTap: () {
+                  onTap(items.indexOf(item));
+                },
+                borderRadius: BorderRadius.circular(8),
+                child: Container(
+                  //max-width for each item
+                  //24 is the padding from left and right
+                  width: MediaQuery.of(context).size.width *
+                          (100 / (items.length * 100)) -
+                      24,
+                  padding: EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        item.icon,
+                        color: Constant.PRIMARY_COLOR,
+                        size: iconSize,
+                      ),
+                      Text(
+                        '${item.title}',
+                        style: TextStyle(
+                          color: currentIndex == items.indexOf(item)
+                              ? selectedItemColor
+                              : unselectedItemColor,
+                          fontSize: fontSize,
+                        ),
+                      ),
+                    ],
                   ),
-                  Text(
-                    '${item.title}',
-                    style: TextStyle(
-                      color: currentIndex == items.indexOf(item)
-                          ? selectedItemColor
-                          : unselectedItemColor,
-                      fontSize: fontSize,
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 }
