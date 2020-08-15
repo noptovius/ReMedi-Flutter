@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/views/screens/qrcode/qr_code_screen.dart';
+import 'package:garudahacks/src/views/screens/catalogue/catalogue_screen.dart';
+import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_screen.dart';
 import 'package:garudahacks/src/views/screens/remedi/remedi_screen.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar.dart';
 import 'package:garudahacks/src/views/widgets/bottomnavigation/floating_navbar_item.dart';
@@ -53,6 +55,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 );
                                 break;
                               case 1:
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => CatalogueScreen())
+                                );
                                 break;
                               case 2:
                                 Navigator.push(

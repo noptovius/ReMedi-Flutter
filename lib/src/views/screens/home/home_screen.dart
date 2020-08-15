@@ -108,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin<H
                                         size: 24,
                                         color: Colors.white,
                                       ),
-                                      child: Icon(Icons.call),
+                                      child: Icon(Icons.alarm),
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 4, right: 4),
