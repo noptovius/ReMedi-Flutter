@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/views/screens/auth/passcode_screen.dart';
-import 'package:garudahacks/src/views/screens/doctor/doctor_detail_screen.dart';
-import 'package:garudahacks/src/views/screens/home/home_screen.dart';
-import 'package:garudahacks/src/views/screens/qrcode/qr_code_screen.dart';
 import 'package:garudahacks/src/views/screens/splash/splash_screen.dart';
 import 'package:garudahacks/src/views/widgets/splash/splash_widget.dart';
 import 'package:logging/logging.dart';

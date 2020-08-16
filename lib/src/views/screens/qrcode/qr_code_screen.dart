@@ -24,7 +24,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
               child: Container(
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/splash-screen.png"),
+                    image: AssetImage("assets/images/base.png"),
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -62,16 +62,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
               },
             ),
             Positioned(
-              bottom: 30,
+              bottom: 10,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 child: _floatingBottomNavigation(),
               ),
             ),
             Positioned(
-              bottom: 50,
+              bottom: 40,
               child: SizedBox(
-                height: 80,
+                height: 100,
                 width: MediaQuery.of(context).size.width,
                 child: Column(
                   children: [
@@ -443,11 +443,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => CatalogueScreen()));
             break;
-          case 2:
+          case 3:
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => ReMediScreen()));
             break;
-          case 3:
+          case 4:
             break;
         }
       },

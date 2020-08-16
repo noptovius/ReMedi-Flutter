@@ -10,12 +10,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new CachedNetworkImage(
-          imageUrl: "https://bit.ly/bcek-splash-screen",
-          fit: BoxFit.cover,
-          height: double.infinity,
-          width: double.infinity,
-          alignment: Alignment.center,
+      body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: new Image.asset("assets/images/splash.png",fit: BoxFit.cover,),
       )
     );
   }
