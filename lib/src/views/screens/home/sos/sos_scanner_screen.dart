@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/views/widgets/common/custom_title_text.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'dart:ui';
 import 'package:flutter/rendering.dart';
 
-class QrCodeScreen extends StatefulWidget {
+class SosScannerScreen extends StatefulWidget {
   @override
-  _QrCodeScreenState createState() => _QrCodeScreenState();
+  _SosScannerScreenState createState() => _SosScannerScreenState();
 }
 
-class _QrCodeScreenState extends State<QrCodeScreen> {
+class _SosScannerScreenState extends State<SosScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
@@ -82,28 +83,16 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
-            width: 200,
-            height: 200,
+            width: 300,
+            height: 300,
             child: QRView(
               key: qrKey,
               onQRViewCreated: (controller) {
                 controller.scannedDataStream.listen((value) {
-                  setState(() {});
+                  http.put(Constant.BASE_URL + "patients/1/unlock");
+                  Navigator.pop(context);
                 });
               },
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: RaisedButton(
-              onPressed: () => _settingQrBottomSheet(context),
-              color: Colors.black,
-              child: Text(
-                "Show QR",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
             ),
           )
         ],
@@ -129,7 +118,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
             },
           ),
           TitleText(
-            text: "Pairing",
+            text: "SOS",
             fontSize: 14,
             fontWeight: FontWeight.w200,
             color: Colors.white,
@@ -145,7 +134,7 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(20),
       child: Text(
-        "Just scan QR code for adding friends or sharing medical record with the doctor",
+        "Scan your friend's QR which located on their lock screen",
         textAlign: TextAlign.center,
       ),
     );
@@ -171,58 +160,5 @@ class _QrCodeScreenState extends State<QrCodeScreen> {
         onPressed();
       }
     }, borderRadius: BorderRadius.all(Radius.circular(13)));
-  }
-
-  void _settingQrBottomSheet(context) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        context: context,
-        builder: (BuildContext bc) {
-          return Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(
-                    left: 40,
-                    right: 40,
-                    top: 40,
-                    bottom: 20,
-                  ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 4,
-                    ),
-                  ),
-                  child: QrImage(
-                    data: "1",
-                    version: QrVersions.auto,
-                    size: 200.0,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  child: Text(
-                    "Your medical record will be shared with the doctor or You'll be " +
-                        "added as a friend when your friend scans your QR Code",
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
-            ),
-          );
-        });
   }
 }
