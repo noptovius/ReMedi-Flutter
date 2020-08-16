@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/doctor.dart';
-import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor_response.dart';
 import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/doctor/doctor_detail_screen.dart';

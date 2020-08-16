@@ -51,4 +51,7 @@ extension PaddingHelper on Widget {
 
   Padding get onlyPaddingTop150 =>
       Padding(padding: EdgeInsets.only(top: 150), child: this);
+
+  Padding get onlyPaddingTop50 =>
+      Padding(padding: EdgeInsets.only(top: 50), child: this);
 }

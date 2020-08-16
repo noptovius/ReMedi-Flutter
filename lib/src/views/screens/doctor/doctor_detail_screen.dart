@@ -2,9 +2,9 @@ import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/detail_doctor_response.dart';
-import 'package:garudahacks/src/models/doctor.dart';
-import 'package:garudahacks/src/models/doctor_response.dart';
+import 'package:garudahacks/src/models/doctor/detail_doctor_response.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor_response.dart';
 import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';
@@ -418,7 +418,9 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                   width: double.infinity,
                   child: RaisedButton(
                     color: Constant.PRIMARY_COLOR,
-                    onPressed: () {},
+                    onPressed: () {
+                        _popBottomSheet();
+                    },
                     child: Text(
                       "Confirm Time",
                       style: TextStyle(
@@ -431,6 +433,23 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
             ],
           );
         });
+  }
+
+  void _popBottomSheet() {
+    Navigator.pop(context);
+    final snackBar = SnackBar(
+      content: Text('Yay! A SnackBar!'),
+      action: SnackBarAction(
+        label: 'Undo',
+        onPressed: () {
+          // Some code to undo the change.
+        },
+      ),
+    );
+
+    // Find the Scaffold in the widget tree and use
+    // it to show a SnackBar.
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   void _setCurrentTime(int index) {

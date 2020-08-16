@@ -1,4 +1,4 @@
-import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'doctor_response.g.dart';
 

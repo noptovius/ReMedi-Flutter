@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/models/doctor/doctor.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_content.dart';
 import 'package:garudahacks/src/views/widgets/common/app_theme.dart';
@@ -12,51 +13,42 @@ class ReMediDetailScreen extends StatefulWidget {
 }
 
 class _ReMediDetailScreenState extends State<ReMediDetailScreen> {
-  Doctor _doctor = Doctor(
-    rating: 4.7,
-    address: "West Jakarta",
-    name: "Dr A",
-    specialization: "Cardiologist",
-  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
+      body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
-            SingleChildScrollView(
-              child: Container(
-                height: AppTheme.fullHeight(context) - 50,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Color(0xfffbfbfb),
-                      Color(0xfff7f7f7),
+            Container(
+              color: Colors.transparent,
+              child: SingleChildScrollView(
+                child: Container(
+                  height: AppTheme.fullHeight(context) - 50,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/images/base.png"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _appBar().onlyPaddingTop50,
+                      _title(context),
+                      Expanded(
+                        child: AnimatedSwitcher(
+                            duration: Duration(milliseconds: 300),
+                            switchInCurve: Curves.easeInToLinear,
+                            switchOutCurve: Curves.easeOutBack,
+                            child: ReMediDetailContent()),
+                      )
                     ],
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    _appBar(),
-                    _title(context),
-                    Expanded(
-                      child: AnimatedSwitcher(
-                          duration: Duration(milliseconds: 300),
-                          switchInCurve: Curves.easeInToLinear,
-                          switchOutCurve: Curves.easeOutBack,
-                          child: ReMediDetailContent()),
-                    )
-                  ],
-                ),
               ),
-            ),
+            )
           ],
-        ),
       ),
     );
   }
@@ -99,9 +91,9 @@ class _ReMediDetailScreenState extends State<ReMediDetailScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _icon(Icons.supervisor_account,
-                          color: Colors.black54,
-                          backgroundIcon: Colors.greenAccent),
+                      _icon(Icons.account_box,
+                          color: Colors.white,
+                          backgroundIcon: Constant.PRIMARY_COLOR),
                       SizedBox(width: 10),
                       _activeDoctorSection(
                           "dr. Jajang Nurjana, Sp.JP", 16, "Jakarta Hospital", 12),
