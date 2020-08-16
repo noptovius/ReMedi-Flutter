@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:garudahacks/src/models/doctor.dart';
+import 'package:garudahacks/src/utils/constant.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/remedi/details/remedi_detail_screen.dart';
 import 'package:garudahacks/src/views/widgets/common/app_color.dart';
@@ -13,10 +13,21 @@ class ReMediScreen extends StatefulWidget {
 
 class _ReMediScreenState extends State<ReMediScreen> {
   final List<String> items = [
-    "General Practicionare",
-    "Dentist",
-    "Cardiologist",
-    "Dermatologist"
+    "Blood Pressure",
+    "Heart Rate",
+    "Body Temperature"
+  ];
+
+  final List<String> subItems = [
+    "140/90 mmHg",
+    "83 bpm",
+    "36.7 C"
+  ];
+
+  final List<String> images = [
+    "blood-preassure",
+    "heart-rate",
+    "temperature"
   ];
 
 //  Doctor _doctor = Doctor(
@@ -34,7 +45,7 @@ class _ReMediScreenState extends State<ReMediScreen> {
         Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/images/splash-screen.png"),
+                image: AssetImage("assets/images/base.png"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -133,21 +144,28 @@ class _ReMediScreenState extends State<ReMediScreen> {
                     children: <Widget>[
                       ClipOval(
                         child: Material(
-                          color: Colors.blue, // button color
+                          color: Colors.white, // button color
                           child: SizedBox(
-                              width: 80, height: 80, child: Icon(Icons.menu)),
+                              width: 80, height: 80,
+                              child: Image.asset(
+                                "assets/images/" +
+                                    images[index].toLowerCase() +
+                                    ".png",
+                                width: 40,
+                              ),
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       TitleText(
-                        text: vitalText,
+                        text: items[index],
                         fontSize: 12,
                         color: AppColor.white,
                       ),
                       TitleText(
-                        text: vitalValue,
+                        text: subItems[index],
                         fontSize: 12,
                         color: AppColor.white,
                       ),
@@ -161,7 +179,7 @@ class _ReMediScreenState extends State<ReMediScreen> {
   Widget _medicalRecordSection(BuildContext buildContext) {
     return Container(
       margin: EdgeInsets.only(top: 20),
-      padding: EdgeInsets.only(left: 20, right: 20),
+      padding: EdgeInsets.all(20),
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -170,45 +188,79 @@ class _ReMediScreenState extends State<ReMediScreen> {
         ),
         color: Colors.white,
       ),
-      child:
-          ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: 10,
-            itemBuilder: (index, context) => ListTile(
-              leading: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                    10,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        TitleText(text: "JUN", fontSize: 15,),
+        ListView.separated(
+          separatorBuilder: (context, index) => Divider(),
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: 10,
+          itemBuilder: (context, index) => Column(
+            children: <Widget>[
+              ListTile(
+                leading: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                      10,
+                    ),
+                    color: Constant.PRIMARY_COLOR,
                   ),
-                  color: Colors.black,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Icon(
-                    Icons.person,
-                    color: Colors.white,
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TitleText(
+                      text: "Test",
+                      fontSize: 12,
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Icon(Icons.my_location, size: 10,),
+                        TitleText(
+                          text: "Test",
+                          fontSize: 10,
+                        ),
+                      ],
+                    )
+
+                  ],
+                ).ripple(() {
+                  Navigator.push(
+                      buildContext,
+                      MaterialPageRoute(
+                          builder: (context) => ReMediDetailScreen(
+//                            id: doctors[index].id.toString(),
+                          )));
+                }),
+                trailing: Column(
+                  children: [
+                    Icon(
+                      Icons.star,
+                      color: Colors.orangeAccent,
+                      size: 16,
+                    ),
+                    Text(
+                      "test",
+//                      doctors[index].rating.toString(),
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ],
+                ),
               ),
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-//                  Text(_doctor.name),
-//                  Text(_doctor.specialization),
-//                  Text(_doctor.address)
-                ],
-              ),
-              trailing: Icon(
-                Icons.person,
-              ),
-            ).ripple(() {
-              Navigator.push(
-                  buildContext,
-                  MaterialPageRoute(builder: (context) => ReMediDetailScreen())
-              );
-            }),
+            ],
           ),
+        )
+      ]),
     );
   }
 

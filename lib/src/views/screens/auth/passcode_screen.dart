@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:garudahacks/src/utils/extensions.dart';
 import 'package:garudahacks/src/views/screens/home/home_screen.dart';
@@ -33,6 +35,15 @@ class _PassCodeScreenState extends State<PassCodeScreen>
   int _fourthDigit;
   int _fifthDigit;
   int _sixthDigit;
+
+  Timer timer;
+  @override
+  void initState() {
+    timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    });
+  }
+
 
   // Returns "Appbar"
   get _getAppbar {

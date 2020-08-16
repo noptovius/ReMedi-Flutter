@@ -141,7 +141,7 @@ ItemBuilder _defaultItemBuilder({
                   //24 is the padding from left and right
                   width: MediaQuery.of(context).size.width *
                           (100 / (items.length * 100)) -
-                      24,
+                      20,
                   padding: EdgeInsets.all(8),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,

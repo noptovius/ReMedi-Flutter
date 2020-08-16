@@ -15,6 +15,19 @@ class ReMediDetailContent extends StatefulWidget {
 
 class _ReMediDetailContentState extends State<ReMediDetailContent> {
 
+  List<String> _symptoms = [
+    "Cold Sweat",
+    "Chest Pain",
+    "Feeling Faint",
+    "Nausea",
+    "Shortness"
+  ];
+
+  List<String> _diagnoses = [
+    "Hypertension",
+    "Myocardial Infact"
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,8 +39,8 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            _commonSection("Symptoms", "6 Total", Colors.green),
-            _commonSection("Diagnosed", "2 Total", Colors.pink),
+            _commonSection("Symptoms", "6 Total", Colors.green, _symptoms),
+            _commonSection("Diagnosed", "2 Total", Colors.pink, _diagnoses),
             _medicinesSection(),
             _examinationsSection()
           ],
@@ -36,11 +49,11 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
     );
   }
 
-  Widget _commonSection(String title, String size, Color color) {
+  Widget _commonSection(String title, String size, Color color, List list) {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(top: 8, right: 16, left: 16, bottom: 4),
+          padding: EdgeInsets.only(top: 8, right: 16, left: 16),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -52,24 +65,25 @@ class _ReMediDetailContentState extends State<ReMediDetailContent> {
           height: AppTheme.fullHeight(context) * .15,
           width: AppTheme.fullWidth(context),
           child: ListView.builder(
+            itemCount: list.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) =>
-                _circleItem(Icon(Icons.account_box), "Bisoprofal", color),
+                _circleItem(SizedBox(width: 40, child: Image.asset("assets/images/" + list[index].toLowerCase().replaceAll(" ", "-") +".png"),), list[index], color),
           ).hP16,
         ).vP8,
       ],
     );
   }
 
-  Widget _circleItem(Icon icon, String title, Color color) {
+  Widget _circleItem(Widget widget, String title, Color color) {
     return Container(
       child: Column(
         children: <Widget>[
           ClipOval(
             child: Material(
               color: color, // button color
-              child: SizedBox(width: 80, height: 80, child: icon)
+              child: SizedBox(width: 80, height: 80, child: widget)
               ),
             ),
           SizedBox(height: 20,),

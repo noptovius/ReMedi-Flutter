@@ -66,6 +66,18 @@ flutter:
     - assets/images/dermatologist.png
     - assets/images/pulmonologist.png
     - assets/images/urologist.png
+    - assets/images/heart-rate.png
+    - assets/images/blood-preassure.png
+    - assets/images/temperature.png
+    - assets/images/nausea.png
+    - assets/images/heart-rate.png
+    - assets/images/hypertension.png
+    - assets/images/myocardial-infact.png
+    - assets/images/shortness.png
+    - assets/images/feeling-faint.png
+    - assets/images/cold-sweat.png
+    - assets/images/chest-pain.png
+    - assets/images/splash.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
